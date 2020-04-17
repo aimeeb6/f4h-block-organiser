@@ -1,13 +1,12 @@
 import java.io.File;
-import java.util.Arrays;
 
-public class Directory {
+public class FormDirectory {
     private String pathname;
     private File[] listOfForms;
     private File[] listOfBlocks;
     
 
-    public Directory(String directoryPathName){
+    public FormDirectory(String directoryPathName){
         if (directoryPathName.endsWith("form-definitions")){
             pathname = directoryPathName;
             setFileLists();
@@ -25,7 +24,6 @@ public class Directory {
         File blocks = new File(pathname + "/FormSections");
         listOfBlocks = blocks.listFiles();
 
-
     }
 
     public File[] getFormsList(){
@@ -34,13 +32,6 @@ public class Directory {
 
     public File[] getBlockList(){
         return listOfBlocks;
-    }
-
-    public static void main(String[] args){
-        
-        Directory liveDir = new Directory("/Users/Aimee/Downloads/EHR_Work/Development/forms4health-form-definitions");
-        System.out.println(Arrays.toString(liveDir.getBlockList().getName()));
-
     }
 
 
