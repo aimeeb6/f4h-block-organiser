@@ -11,15 +11,25 @@ public class MyApp {
     public void createBlockObjects() {
 
         for (File block : f4hDir.getBlockList()) {
+            if(block.getName().startsWith("."))
+            {
+                continue;
+            }
             listOfBlockObjects.add(new Block(block.getName()));
         }
-        listOfBlockObjects.get(5).printInfo();
+    }
+
+    public void printBlocks(){
+        for(Block block:listOfBlockObjects){
+            block.printInfo();
+        }
     }
 
     public static void main(String[] args){
         MyApp setup = new MyApp();
 
         setup.createBlockObjects();
+        setup.printBlocks();
 
     }
   
