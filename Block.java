@@ -12,6 +12,10 @@ public class Block {
         formList.add(form);
     }
 
+    public String getName(){
+        return blockName;
+    }
+
     public void printInfo(){
         System.out.println(blockName + "is used in these forms" + formList);
         //needs more work for emtpy forms lists

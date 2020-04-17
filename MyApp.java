@@ -25,11 +25,20 @@ public class MyApp {
         }
     }
 
+    public Block findBlock(String blockName){
+        for(Block block:listOfBlockObjects){
+            if(block.getName().equals(blockName)){
+                return block;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args){
         MyApp setup = new MyApp();
 
         setup.createBlockObjects();
-        setup.printBlocks();
+        System.out.println(setup.findBlock(".").getName());
 
     }
   
