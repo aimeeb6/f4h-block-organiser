@@ -1,33 +1,45 @@
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.Arrays;
 
 public class Directory {
     private String pathname;
-    private File[] listOfFiles;
+    private File[] listOfForms;
+    private File[] listOfBlocks;
+    
 
     public Directory(String directoryPathName){
-        pathname = directoryPathName;
+        if (directoryPathName.endsWith("form-definitions")){
+            pathname = directoryPathName;
+            setFileLists();
+        }else{
+            System.out.println("The pathname should end at /forms4health-form-definitions or /ltht-form-definitions ");
+            System.exit(0);
+        }
+        
     }
 
-    public void setFileList(){
-        File folder = new File(pathname);
-        try {
-            Files.list(new File(pathname).toPath()).forEach(path -> {
-                System.out.println(path);
-            });
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void setFileLists(){
+        File forms = new File(pathname + "/CompositeForms");
+        listOfForms = forms.listFiles();
 
+        File blocks = new File(pathname + "/FormSections");
+        listOfBlocks = blocks.listFiles();
+
+
+    }
+
+    public File[] getFormsList(){
+        return listOfForms;
+    }
+
+    public File[] getBlockList(){
+        return listOfBlocks;
     }
 
     public static void main(String[] args){
         
-        Directory liveDir = new Directory("/Users/Aimee/Downloads/EHR_Work/Development/forms4health-form-definitions/CompositeForms");
-        liveDir.setFileList();
+        Directory liveDir = new Directory("/Users/Aimee/Downloads/EHR_Work/Development/forms4health-form-definitions");
+        System.out.println(Arrays.toString(liveDir.getBlockList().getName()));
 
     }
 
