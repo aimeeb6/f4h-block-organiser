@@ -39,6 +39,7 @@ public class MyApp {
             if(!form.equals(null)){
                 form.setFormVersions(f4hPathname);
                 form.findBlocksInForm(f4hPathname, listOfBlockObjects);
+                form.setLiveStatus(liveDir);
         }
         }
     }
