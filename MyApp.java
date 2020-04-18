@@ -1,5 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -34,29 +37,51 @@ public class MyApp {
         }
     }
 
-    public void setupFormObjects(){
-        for(Form form:listOfFormObjects){
-            if(!form.equals(null)){
+    public void setupFormObjects() {
+        for (Form form : listOfFormObjects) {
+            if (!form.equals(null)) {
                 form.setFormVersions(f4hPathname);
                 form.findBlocksInForm(f4hPathname, listOfBlockObjects);
                 form.setLiveStatus(liveDir);
-        }
+            }
         }
     }
 
-    public void printInfo(){
+    public void printAllBlockInfo() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
         for(Block b: listOfBlockObjects){
-            b.printInfo();
+            writer.write(b.printInfo());
+            writer.newLine();
+            for(Form f: b.getFormList()){
+                writer.write(f.getName());
+                writer.newLine();
+            }
+            writer.newLine();
+            writer.newLine();
         }
+        writer.close();
     }
-    public static void main(String[] args) throws ParserConfigurationException, SAXException {
+
+    public void printBlocksWithNoUse() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+        for(Block b: listOfBlockObjects){
+            if(b.getFormList().size() == 0){
+                writer.write(b.printInfo());
+                writer.newLine();
+            }
+        }
+        writer.close();
+    }
+
+
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
       
         MyApp app = new MyApp();
 
         app.createBlockObjects();
         app.createFormObjects();
         app.setupFormObjects();
-        app.printInfo();
+        app.printBlocksWithNoUse();
        
     }
   

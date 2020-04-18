@@ -18,15 +18,16 @@ public class Block {
         return blockName;
     }
 
-    public void printInfo(){ 
-        if(formList.size() < 1){
-            System.out.println("The" + blockName + " is not used in any forms");
+    public String printInfo(){ 
+        if(formList.size() == 0){
+            return("The " + blockName + " is not used in any forms");
+        }else{
+            return(blockName + " is used in these forms ");
         }
-        System.out.println(blockName + " is used in these forms ");
-        for(Form form:formList){
-            System.out.println(form.getName());
-        //needs more work for emtpy forms lists
-        }
-    }
 
+}
+
+public ArrayList<Form> getFormList(){
+    return formList;
+}
 }
