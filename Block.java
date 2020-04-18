@@ -9,8 +9,10 @@ public class Block {
     }
 
     public void addToFormList(Form form){
-        formList.add(form);
+        if(!formList.contains(form)){
+            formList.add(form);
     }
+}
 
     public String getName(){
         return blockName;
@@ -18,7 +20,7 @@ public class Block {
 
     public void printInfo(){ 
         if(formList.size() < 1){
-            System.out.println("The" + blockName + "is not used in any forms");
+            System.out.println("The" + blockName + " is not used in any forms");
         }
         System.out.println(blockName + " is used in these forms ");
         for(Form form:formList){

@@ -13,10 +13,10 @@ import org.xml.sax.SAXException;
 
 public class Form {
     private String formName;
-    private ArrayList<Block> blockList = new ArrayList<>(); // list of all of the blocks in every version of the form
-    private boolean isFormLive;
-    private ArrayList<String> blocksInForms = new ArrayList<>(); // l
-    private File[] formVersions;
+    private ArrayList<Block> blockList =  new ArrayList<>();
+    private ArrayList<String> formVersions =  new ArrayList<>();
+    private boolean isFormLive = false;
+    
 
     public Form(String name) {
         formName = name;
@@ -30,21 +30,32 @@ public class Form {
         return blockList;
     }
 
-    public void setFormVersions(String pathname){
-        File forms = new File(pathname + "/CompositeForms" + "/" + formName + "/");
-        formVersions = forms.listFiles();
+    public void setFormVersions(String f4hPathname){
+        // F4Hpathname makes the pathname from the forms4health website
+        File forms = new File(f4hPathname + "/CompositeForms" + "/" + formName + "/");
+        File[] versions = forms.listFiles();
+        
+        for(File formV: versions){
+            if (formV.getName().startsWith(".")) {
+                continue;
+            }
+            formVersions.add(formV.getName());
+        }
     }
 
-    public void findBlocksInForm(String pathname){
+    public void findBlocksInForm(String f4hPathname, ArrayList<Block> blockObjList){
+        // F4Hpathname makes the pathname from the forms4health website
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            for(File version:formVersions ){
-                if (version.getName().startsWith(".")) {
+            //loops through all of the form versions 
+            for(String version:formVersions ){
+                if (version.startsWith(".")) {
                     continue;
+                    //this removes any unwanted files such as .git files and .DS_Store
                 }
 
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(pathname + "/CompositeForms/" + formName + "/" + version.getName() + "/edit.xml");
+            Document doc = builder.parse(f4hPathname + "/CompositeForms/" + formName + "/" + version + "/edit.xml");
             doc.getDocumentElement().normalize();
             NodeList nList = doc.getElementsByTagName("nf:form-section");
 
@@ -54,9 +65,12 @@ public class Form {
 
                 Element eElement = (Element) nNode;
 
-                if(!blocksInForms.contains(eElement.getAttribute("template-form-reference"))){
-                    blocksInForms.add(eElement.getAttribute("template-form-reference"));
-                }
+                for(Block b: blockObjList){
+                    if(b.getName().equals(eElement.getAttribute("template-form-reference"))){
+                        blockList.add(b);
+                        b.addToFormList(this);
+                    }
+            }
             }
             }
         }
@@ -69,26 +83,17 @@ public class Form {
         }
     }
 
-    public void setLiveStatus(){
-        isFormLive = true;
+    public void setLiveStatus(FormDirectory liveDir){
 
+        for(File form:liveDir.getFormsList()){
+            if(form.getName().equals(formName)){
+                isFormLive = true;
+            }
     }
+}
 
     public boolean getLiveStatus(){
-
         return isFormLive;
 
-    }
-
-    public void setBlockArray(ArrayList<Block> listOfBlock){
-        for(String block: blocksInForms){
-            for(Block blockObject : listOfBlock){
-                    if (block.equals(blockObject.getName())){
-                        blockList.add(blockObject);
-                        blockObject.addToFormList(this);
-                        break;
-                    }
-            }
-        }
     }
 }

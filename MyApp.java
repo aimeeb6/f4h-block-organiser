@@ -21,41 +21,41 @@ public class MyApp {
             }
             listOfBlockObjects.add(new Block(block.getName()));
         }
+
     }
 
-    public void printBlocks() {
-        for (Block block : listOfBlockObjects) {
-            block.printInfo();
-        }
-    }
+    public void createFormObjects() {
 
-    public void createForms() {
         for (File form : f4hDir.getFormsList()) {
             if (form.getName().startsWith(".")) {
                 continue;
             }
-            listOfFormObjects.add(new Form (form.getName()));
+            listOfFormObjects.add(new Form(form.getName()));
         }
-
-
-        for(Form forms: listOfFormObjects){
-            forms.setFormVersions(f4hPathname);
-            forms.findBlocksInForm(f4hPathname);
-            forms.setBlockArray(listOfBlockObjects);
-        }
-        
     }
 
-    public void printAllBlockInfo(){
-        for(Block b:listOfBlockObjects){
+    public void setupFormObjects(){
+        for(Form form:listOfFormObjects){
+            if(!form.equals(null)){
+                form.setFormVersions(f4hPathname);
+                form.findBlocksInForm(f4hPathname, listOfBlockObjects);
+        }
+        }
+    }
+
+    public void printInfo(){
+        for(Block b: listOfBlockObjects){
             b.printInfo();
         }
     }
     public static void main(String[] args) throws ParserConfigurationException, SAXException {
-        MyApp setup = new MyApp();
-        setup.createBlockObjects();
-        setup.createForms();
-        setup.printAllBlockInfo();
+      
+        MyApp app = new MyApp();
+
+        app.createBlockObjects();
+        app.createFormObjects();
+        app.setupFormObjects();
+        app.printInfo();
        
     }
   
