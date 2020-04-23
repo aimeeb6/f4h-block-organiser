@@ -1,13 +1,10 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 public class MyApp {
     private static String livePathname = "/Users/Aimee/Downloads/EHR_Work/Development/forms4health-form-definitions";
     private String f4hPathname = "/Users/Aimee/Downloads/EHR_Work/Development/ltht-form-definitions";
@@ -47,41 +44,59 @@ public class MyApp {
         }
     }
 
-    public void printAllBlockInfo() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
-        for(Block b: listOfBlockObjects){
-            writer.write(b.printInfo());
-            writer.newLine();
-            for(Form f: b.getFormList()){
-                writer.write(f.getName());
-                writer.newLine();
-            }
-            writer.newLine();
-            writer.newLine();
-        }
-        writer.close();
+    public void setBlockObjects(ArrayList<Block> list){
+        listOfBlockObjects = list;
     }
+    
+    public static Comparator<Block> nameComparator = new Comparator<Block>() {         
+        @Override         
+        public int compare(Block b1, Block b2) {             
+          return (int) (b1.getName().compareTo(b2.getName()));         
+        }     
+      };        
 
-    public void printBlocksWithNoUse() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
-        for(Block b: listOfBlockObjects){
-            if(b.getFormList().size() == 0){
-                writer.write(b.printInfo());
-                writer.newLine();
-            }
-        }
-        writer.close();
-    }
+      public ArrayList<Block> getSortedBlockByName() {
+          Collections.sort(listOfBlockObjects, MyApp.nameComparator);
+          return listOfBlockObjects;
+      }
 
+      public void printAllBlockInfo() throws IOException {
+          BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+          for (Block b : listOfBlockObjects) {
+              writer.write(b.printInfo());
+              writer.newLine();
+              for (Form f : b.getFormList()) {
+                  writer.write(f.getName());
+                  writer.write(f.printLiveStatus());
+                  writer.newLine();
+              }
+              writer.newLine();
+              writer.newLine();
+          }
+          writer.close();
+      }
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-      
-        MyApp app = new MyApp();
+      public void printBlocksWithNoUse() throws IOException {
+          BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+          for (Block b : listOfBlockObjects) {
+              if (b.getFormList().size() == 0) {
+                  writer.write(b.printInfo());
+                  writer.newLine();
+              }
+          }
+          writer.close();
+      }
 
-        app.createBlockObjects();
-        app.createFormObjects();
-        app.setupFormObjects();
-        app.printBlocksWithNoUse();
+      public static void main(String[] args) throws IOException {
+
+          MyApp app = new MyApp();
+
+          app.createBlockObjects();
+          app.createFormObjects();
+          app.setupFormObjects();
+          app.setBlockObjects(app.getSortedBlockByName());
+          app.printAllBlockInfo();
+        //app.printBlocksWithNoUse();
        
     }
   

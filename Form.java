@@ -96,4 +96,12 @@ public class Form {
         return isFormLive;
 
     }
+
+    public String printLiveStatus(){
+        if(isFormLive){
+            return " (Live)";
+        }
+        return " (Not Live)";
+    }
+
 }

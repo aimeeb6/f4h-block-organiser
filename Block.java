@@ -22,9 +22,8 @@ public class Block {
         if(formList.size() == 0){
             return("The " + blockName + " is not used in any forms");
         }else{
-            return(blockName + " is used in these forms ");
+            return(blockName + " is used in a version of theses forms ");
         }
-
 }
 
 public ArrayList<Form> getFormList(){
