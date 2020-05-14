@@ -71,7 +71,6 @@ public class MyApp {
                   writer.newLine();
               }
               writer.newLine();
-              writer.newLine();
           }
           writer.close();
       }
@@ -82,7 +81,9 @@ public class MyApp {
               if (b.getFormList().size() == 0) {
                   writer.write(b.printInfo());
                   writer.newLine();
+                  writer.newLine();
               }
+              
           }
           writer.close();
       }
@@ -96,7 +97,6 @@ public class MyApp {
                     writer.newLine();
                     writer.write(f.getName());
                     writer.write(f.printLiveStatus());
-                    writer.newLine();
                     writer.newLine();
                 }
             }
@@ -112,9 +112,11 @@ public class MyApp {
           app.createFormObjects();
           app.setupFormObjects();
           app.setBlockObjects(app.getSortedBlockByName());
-          app.printAllBlockInfo();
-        //app.printBlocksWithNoUse();
+         // app.printAllBlockInfo();
+         app.printBlocksWithNoUse();
+         // app.printBlocksNotLive();
        
     }
   
 }
+
