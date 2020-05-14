@@ -87,6 +87,23 @@ public class MyApp {
           writer.close();
       }
 
+    public void printBlocksNotLive() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+        for (Block b : listOfBlockObjects) {
+            for(Form f: b.getFormList()){
+                if(f.getLiveStatus() == false){
+                    writer.write(b.printInfo());
+                    writer.newLine();
+                    writer.write(f.getName());
+                    writer.write(f.printLiveStatus());
+                    writer.newLine();
+                    writer.newLine();
+                }
+            }
+        }
+        writer.close();
+    }
+
       public static void main(String[] args) throws IOException {
 
           MyApp app = new MyApp();
