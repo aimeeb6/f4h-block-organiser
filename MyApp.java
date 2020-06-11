@@ -56,12 +56,13 @@ public class MyApp {
       };        
 
       public ArrayList<Block> getSortedBlockByName() {
+          //sorts block list alphabetically
           Collections.sort(listOfBlockObjects, MyApp.nameComparator);
           return listOfBlockObjects;
       }
 
       public void printAllBlockInfo() throws IOException {
-          BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+          BufferedWriter writer = new BufferedWriter(new FileWriter("allBlockInfo.txt"));
           for (Block b : listOfBlockObjects) {
               writer.write(b.printInfo());
               writer.newLine();
@@ -76,7 +77,7 @@ public class MyApp {
       }
 
       public void printBlocksWithNoUse() throws IOException {
-          BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+          BufferedWriter writer = new BufferedWriter(new FileWriter("BlocksWithNoUse.txt"));
           for (Block b : listOfBlockObjects) {
               if (b.getFormList().size() == 0) {
                   writer.write(b.printInfo());
@@ -89,20 +90,31 @@ public class MyApp {
       }
 
     public void printBlocksNotLive() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("blockInfo.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("blocksNotLive.txt"));
+        blockloop:
         for (Block b : listOfBlockObjects) {
             for(Form f: b.getFormList()){
-                if(f.getLiveStatus() == false){
-                    writer.write(b.printInfo());
-                    writer.newLine();
-                    writer.write(f.getName());
-                    writer.write(f.printLiveStatus());
-                    writer.newLine();
+                if(f.getLiveStatus() == true){
+                    continue blockloop;
+                    //checks if any forms are live, skips the block loop if so
                 }
             }
+            for (Form f : b.getFormList()) {
+                //prints info
+                writer.write(b.printInfo());
+                writer.newLine();
+                writer.write(f.getName());
+                writer.write(f.printLiveStatus());
+                writer.newLine();
+                writer.newLine();
+            }
+            
         }
         writer.close();
-    }
+
+
+        }
+
 
       public static void main(String[] args) throws IOException {
 
@@ -112,9 +124,9 @@ public class MyApp {
           app.createFormObjects();
           app.setupFormObjects();
           app.setBlockObjects(app.getSortedBlockByName());
-         // app.printAllBlockInfo();
-         app.printBlocksWithNoUse();
-         // app.printBlocksNotLive();
+          app.printAllBlockInfo();
+          app.printBlocksWithNoUse();
+          app.printBlocksNotLive();
        
     }
   
