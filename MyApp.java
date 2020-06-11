@@ -6,8 +6,10 @@ import java.util.Comparator;
 import java.io.FileWriter;
 import java.io.IOException;
 public class MyApp {
-    private static String livePathname = "C:\\Users\\aimee\\Documents\\EHR Work\\Development\\airelogics\\ltht-form-definitions";
-    private String f4hPathname = "C:\\Users\\aimee\\Documents\\EHR Work\\Development\\forms4health-form-definitions";
+    private static String livePathname = "C:\\Users\\aimee\\Documents\\EHR_Work\\Development\\forms4health-form-definitions";
+    private String f4hPathname = "C:\\Users\\aimee\\Documents\\EHR_Work\\Development\\airelogic\\ltht-form-definitions";
+    //! double back slash the directories
+
     public FormDirectory liveDir = new FormDirectory(livePathname);
     public FormDirectory f4hDir = new FormDirectory(f4hPathname);
     private ArrayList<Block> listOfBlockObjects = new ArrayList<>();
@@ -127,10 +129,10 @@ public class MyApp {
           app.createBlockObjects();
           app.createFormObjects();
           app.setupFormObjects();
-          app.setBlockObjects(app.getSortedBlockByName());
-         app.printAllBlockInfo();
-         // app.printBlocksWithNoUse();
-         // app.printBlocksNotLive();
+          app.setListofBlockObjects(app.getSortedBlockByName());
+          app.printAllBlockInfo();
+          app.printBlocksWithNoUse();
+          app.printBlocksNotLive();
        
     }
   
