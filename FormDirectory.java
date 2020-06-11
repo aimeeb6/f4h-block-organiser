@@ -14,6 +14,7 @@ public class FormDirectory {
             System.out.println("The pathname should end at /forms4health-form-definitions or /ltht-form-definitions ");
             System.exit(0);
         }
+        //validates repo pathways
         
     }
 

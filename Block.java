@@ -11,6 +11,7 @@ public class Block {
     public void addToFormList(Form form){
         if(!formList.contains(form)){
             formList.add(form);
+            //adds the form that contains this block to list, if block doesn't exit
     }
 }
 

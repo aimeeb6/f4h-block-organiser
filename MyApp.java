@@ -21,6 +21,7 @@ public class MyApp {
             }
             listOfBlockObjects.add(new Block(block.getName()));
         }
+        //creates block objects form the f4h repository ans stores in list
 
     }
 
@@ -31,10 +32,12 @@ public class MyApp {
                 continue;
             }
             listOfFormObjects.add(new Form(form.getName()));
+            //creates form objects form the f4h repository ans stores in list
         }
     }
 
     public void setupFormObjects() {
+        //sets up info for all forms 
         for (Form form : listOfFormObjects) {
             if (!form.equals(null)) {
                 form.setFormVersions(f4hPathname);
@@ -44,14 +47,15 @@ public class MyApp {
         }
     }
 
-    public void setBlockObjects(ArrayList<Block> list){
+    public void setListofBlockObjects(ArrayList<Block> list){
         listOfBlockObjects = list;
+        //setter for the sorted list of block objects
     }
     
-    public static Comparator<Block> nameComparator = new Comparator<Block>() {         
-        @Override         
+    public static Comparator<Block> nameComparator = new Comparator<Block>() {                 
         public int compare(Block b1, Block b2) {             
-          return (int) (b1.getName().compareTo(b2.getName()));         
+          return (int) (b1.getName().compareTo(b2.getName())); 
+          //compares block names for sorting         
         }     
       };        
 
@@ -123,7 +127,7 @@ public class MyApp {
           app.createBlockObjects();
           app.createFormObjects();
           app.setupFormObjects();
-          app.setBlockObjects(app.getSortedBlockByName());
+          app.setListofBlockObjects(app.getSortedBlockByName());
           app.printAllBlockInfo();
           app.printBlocksWithNoUse();
           app.printBlocksNotLive();
